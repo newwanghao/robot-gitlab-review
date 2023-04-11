@@ -90,5 +90,29 @@ func (bot *robot) HandleMergeCommentEvent(e *gitlab.MergeCommentEvent, log *logr
 		merr.AddError(err)
 	}
 
+	if err = bot.removeInvalidCLA(e, botCfg, log); err != nil {
+		merr.AddError(err)
+	}
+
+	if err = bot.handleRebase(e, botCfg, log); err != nil {
+		merr.AddError(err)
+	}
+
+	if err = bot.handleFlattened(e, botCfg, log); err != nil {
+		merr.AddError(err)
+	}
+
+	if err = bot.removeRebase(e, botCfg, log); err != nil {
+		merr.AddError(err)
+	}
+
+	if err = bot.removeFlattened(e, botCfg, log); err != nil {
+		merr.AddError(err)
+	}
+
+	if err = bot.handleACK(e, botCfg, log); err != nil {
+		merr.AddError(err)
+	}
+
 	return merr.Err()
 }

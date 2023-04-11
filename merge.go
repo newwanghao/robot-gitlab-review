@@ -49,12 +49,15 @@ func (bot *robot) tryMerge(e *gitlab.MergeCommentEvent, cfg *botConfig, addComme
 		return err
 	}
 
+	mergeMethod := bot.genMergeMethod(&mergeRequest, org, repo, log)
+
 	h := mergeHelper{
 		cfg:     cfg,
 		pid:     pid,
 		mrID:    number,
 		org:     org,
 		repo:    repo,
+		method:  mergeMethod,
 		author:  mergeRequest.Author.Username,
 		cli:     bot.cli,
 		mr:      &mergeRequest,
@@ -89,10 +92,13 @@ func (bot *robot) handleLabelUpdate(e *gitlab.MergeEvent, cfg *botConfig, log *l
 		return err
 	}
 
+	mergeMethod := bot.genMergeMethod(&mergeRequest, org, repo, log)
+
 	h := mergeHelper{
 		cfg:    cfg,
 		org:    org,
 		repo:   repo,
+		method: mergeMethod,
 		author: mergeRequest.Author.Username,
 		cli:    bot.cli,
 		mr:     &mergeRequest,
@@ -113,6 +119,7 @@ type mergeHelper struct {
 	mrID    int
 	org     string
 	repo    string
+	method  string
 	author  string
 	trigger string
 

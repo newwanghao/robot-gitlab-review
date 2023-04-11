@@ -59,3 +59,19 @@ type Admin struct {
 	Organization string `json:"organization,omitempty"`
 	Email        string `json:"email,omitempty"`
 }
+
+// Repository struct.
+type Repository struct {
+	Name        string   `json:"name,omitempty"`
+	Description string   `json:"description,omitempty"`
+	MergeMethod string   `json:"merge_method,omitempty"`
+	Branches    []Branch `json:"branches,omitempty"`
+	Type        string   `json:"type,omitempty"`
+}
+
+// Branch struct.
+type Branch struct {
+	Name       string `json:"name,omitempty"`
+	CreateFrom string `json:"create_from,omitempty"`
+	Type       string `json:"type,omitempty"`
+}
